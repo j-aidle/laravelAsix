@@ -11,7 +11,6 @@ class BookController extends Controller
 {
     public function index(): View {
         $books = Book::all();
-
         return view('books.index', compact('books'));
     }
 
@@ -36,13 +35,13 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, $id): RedirectResponse {
+    public function update(Request $request, Book $book): RedirectResponse {
         $request->validate([
             'name' => 'required',
             'author' => 'required',
             'releaseYear' => 'required',
         ]);
-        $book = Book::findOrFail($id);
+
         $book->update($request->all());
 
         return redirect()->route('books.index');
@@ -60,5 +59,5 @@ class BookController extends Controller
     public function show(Book $book): View {
         return view('books.show', compact('book'));
     }
-
 }
+
